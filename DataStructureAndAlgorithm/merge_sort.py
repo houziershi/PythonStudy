@@ -45,7 +45,7 @@ class MergeSort(object):
 
 
 if __name__ == '__main__':
-    mergeSort = MergeSort();
+    mergeSort = MergeSort()
     A = [5, 4, 2, 1, 15, 48, 16, 32]
     mergeSort.merge_sort(A, 0, len(A) - 1)
     print("ok")
