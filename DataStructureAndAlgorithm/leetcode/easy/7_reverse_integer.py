@@ -44,3 +44,12 @@ class Solution:
 
 if __name__ == '__main__':
     print(Solution().reverse2(-153))
+
+    """
+        Time Complexity = O(log(x))
+        Space Complexity = O(1)
+        Given a 32-bit signed integer, reverse digits of an integer.
+        Example:
+        Input: 123
+        Output: 321
+    """
