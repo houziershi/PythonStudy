@@ -4,7 +4,20 @@ class Solution:
             return 0
         elif target > nums[len(nums) - 1]:
             return len(nums)
-        return self.binarySearch2(nums, 0, len(nums) - 1, target)
+        # return self.binarySearch2(nums, 0, len(nums) - 1, target)
+
+        low = 0
+        high = len(nums) - 1
+        while low <= high:
+            middle = (low + high) // 2
+            if target > nums[middle]:
+                low = middle + 1
+            elif target < nums[middle]:
+                high = middle - 1
+            else:
+                return middle
+
+        return low
 
     def binarySearch(self, nums, low, high, target):
         if low > high:
