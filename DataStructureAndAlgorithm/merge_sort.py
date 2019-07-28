@@ -6,7 +6,7 @@ class MergeSort(object):
     def merge_sort(self, a, p, r):
         if p < r:
             q = (r + p) // 2
-            print('q=====', q)
+            # print('q=====', q)
             # self.merge(A, p, q, r)
             self.merge_sort(a, p, q)
             self.merge_sort(a, q + 1, r)
@@ -20,7 +20,7 @@ class MergeSort(object):
         L = [a[p + i] for i in range(m)]
         print(L)
         R = [a[q + 1 + i] for i in range(n)]
-        print(R)
+        # print(R)
         x = 0
         y = 0
         for i in range(p, r + 1):
