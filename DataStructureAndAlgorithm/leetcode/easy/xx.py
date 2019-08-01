@@ -37,5 +37,5 @@ def Max_subarray(a, start, end):
 
 
 if __name__ == '__main__':
-    x = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    x = [-3, -3, -3]
     print(Max_subarray(x, 0, len(x) - 1))

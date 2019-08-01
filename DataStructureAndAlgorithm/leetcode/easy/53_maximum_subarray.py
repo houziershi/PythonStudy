@@ -1,6 +1,6 @@
 class Solution:
     def maxSubArray(self, nums):
-        self.maxSubArray2(nums, 0, len(nums) - 1)
+        return self.maxSubArray2(nums, 0, len(nums) - 1)[2]
 
     def maxSubArray2(self, nums, p, r):
         if p == r:
@@ -17,30 +17,27 @@ class Solution:
         else:
             return middle_start, middle_end, middle_sum
 
-    def maxCrossSubArray(self, nums, low, mid, high):
-        i = mid
-        j = i
+    def maxCrossSubArray(self, a, start, mid, end):
+        left_sum = -1
+        sum = 0
+        cross_left = mid
+        for i in range(mid, start - 1, -1):
+            sum += a[i]
+            if sum > left_sum:
+                left_sum = sum
+                cross_left = i
 
-        sum_sub_right = nums[i]
-        large_right = nums[i]
-
-        for k in range(mid + 1, high + 1):
-            if sum_sub_right + nums[k] > large_right:
-                j = k
-                large_right = sum_sub_right + nums[k]
-            sum_sub_right = sum_sub_right + nums[k]
-
-        large_left = nums[i]
-        sum_sub_left = nums[i]
-        for k in range(mid - 1, low - 1, -1):
-            if sum_sub_left + nums[k] > large_left:
-                i = k
-                large_left = sum_sub_left + nums[k]
-            sum_sub_left = sum_sub_left + nums[k]
-        print(sum_sub_left + sum_sub_right - nums[mid], i, j)
-        return i, j, sum_sub_left + sum_sub_right - nums[mid]
+        right_sum = -1
+        sum = 0
+        cross_right = mid
+        for i in range(mid + 1, end + 1):
+            sum += a[i]
+            if sum > right_sum:
+                right_sum = sum
+                cross_right = i
+        return cross_left, cross_right, left_sum + right_sum
 
 
 if __name__ == '__main__':
     x = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-    print(Solution().maxSubArray2(x, 0, len(x) - 1))
+    print(Solution().maxSubArray(x))
