@@ -19,15 +19,13 @@ class Graph:
 
     def DFS(self, s):
         visited = [False] * (len(self.graph))
-        visited[s] = True
-        print(s, end=" ")
         self.child(visited, s)
 
     def child(self, visited, s):
+        visited[s] = True
+        print(s, end=" ")
         for i in self.graph[s]:
             if visited[i] is False:
-                visited[i] = True
-                print(i, end=" ")
                 self.child(visited, i)
 
 
