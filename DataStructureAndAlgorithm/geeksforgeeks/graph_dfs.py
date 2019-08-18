@@ -13,23 +13,20 @@ class Graph:
         # default dictionary to store graph
         self.graph = defaultdict(list)
 
-        # function to add an edge to graph
-
+    # function to add an edge to graph
     def addEdge(self, u, v):
         self.graph[u].append(v)
 
-    def BFS(self, s):
+    def DFS(self, s):
         visited = [False] * (len(self.graph))
-        queue = []
-        queue.append(s)
+        self.child(visited, s)
+
+    def child(self, visited, s):
         visited[s] = True
-        while queue:
-            item = queue.pop(0)
-            print(item, end=" ")
-            for i in self.graph[item]:
-                if visited[i] is False:
-                    queue.append(i)
-                    visited[i] = True
+        print(s, end=" ")
+        for i in self.graph[s]:
+            if visited[i] is False:
+                self.child(visited, i)
 
 
 if __name__ == '__main__':
@@ -43,4 +40,4 @@ if __name__ == '__main__':
 
     print("Following is Breadth First Traversal"
           " (starting from vertex 2)")
-    g.BFS(2)
+    g.DFS(2)
