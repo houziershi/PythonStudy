@@ -28,6 +28,7 @@ class Graph:
         # Mark the current node as visited
         visited[v] = True
         # Recur for all the vertices adjacent to this vertex
+        # print('for i.....=', v)
         for i in self.graph[v]:
             if visited[i] == False:
                 self.fillOrder(i, visited, stack)
@@ -54,6 +55,7 @@ class Graph:
         # Fill vertices in stack according to their finishing
         # times
         for i in range(self.V):
+            # print('print sccs.....=', i)
             if visited[i] == False:
                 self.fillOrder(i, visited, stack)
 
@@ -66,7 +68,7 @@ class Graph:
         # Now process all vertices in order defined by Stack
         while stack:
             i = stack.pop()
-            print('stack pop==', i)
+            # print('stack pop==', i)
             if visited[i] == False:
                 gr.DFSUtil(i, visited)
                 print("")
@@ -77,11 +79,17 @@ class Graph:
 
 if __name__ == "__main__":
     g = Graph(5)
-    g.addEdge(1, 0)
-    g.addEdge(0, 2)
+    # g.addEdge(1, 0)
+    # g.addEdge(0, 2)
+    # g.addEdge(2, 1)
+    # g.addEdge(0, 3)
+    # g.addEdge(3, 4)
+
     g.addEdge(2, 1)
-    g.addEdge(0, 3)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
     g.addEdge(3, 4)
+    g.addEdge(4, 2)
 
     print("Following are strongly connected components " +
           "in given graph")
