@@ -1,16 +1,20 @@
 class Solution:
     def lengthOfLastWord(self, s: str) -> int:
-        if str.strip(s) is '':
-            return 0
-
-        i = 0
-        for j in range(len(s)):
-            if s[j] is " " and j != len(s) - 1:
-                i = 0
+        lastIndex = 0
+        j = 0
+        for i in range(len(s)):
+            if s[i] is " ":
+                if j != 0:
+                    lastIndex = j
+                j = 0
+                continue
             else:
-                i = i + 1
-        return i
+                j = j + 1
+        if j == 0 and lastIndex != 0:
+            return lastIndex
+        else:
+            return j
 
 
 if __name__ == '__main__':
-    print(Solution().lengthOfLastWord("a "))
+    print(Solution().lengthOfLastWord("  "))
