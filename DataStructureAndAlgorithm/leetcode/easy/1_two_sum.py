@@ -9,9 +9,18 @@ class Solution:
             if subTarget in subNum:
                 return [nums.index(i), next + subNum.index(subTarget)]
 
+    def twoSum2(self, nums, target):
+        index = {}
+        for i in range(len(nums)):
+            sub_target = target - nums[i]
+            if sub_target in index:
+                return [i, index[sub_target]]
+            else:
+                index[nums[i]] = i
+
 
 if __name__ == '__main__':
-    print(Solution().twoSum((2, 7, 11, 15), 9))
+    print(Solution().twoSum2((2, 7, 11, 15), 26))
 
     """
         Time Complexity = O(N^2)
