@@ -22,7 +22,11 @@ class Solution:
             return digits
 
 
+def plusOne1(self, digits):
+    return list(map(int, list(str(int(''.join(map(str, digits))) + 1))))
+
+
 if __name__ == '__main__':
     digit = [9]
-    rs = Solution().plusOne(digit)
+    rs = Solution().plusOne1(digit)
     print('')
