@@ -14,3 +14,12 @@ class Solution:
 
 if __name__ == '__main__':
     print(Solution().romanToInt('IV'))
+
+    """
+    Time Complexity = O(N^2)
+    Space Complexity = O(1)
+    Example 1:
+
+    Input: "III"
+    Output: 3
+    """
