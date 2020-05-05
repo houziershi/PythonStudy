@@ -10,6 +10,42 @@ class TreeNode:
 
 
 class Solution:
+    def levelOrderBottom2(self, root: TreeNode):
+        if root is None:
+            return []
+        result, current = [], [root]
+        while current:
+            next_level, vals = [], []
+            for node in current:
+                vals.append(node)
+                if node.left:
+                    next_level.append(node.left)
+                if node.right:
+                    next_level.append(node.right)
+
+            current = next_level
+            result.append(vals)
+
+        return result[::-1]
+
+    def levelOrderBottom3(self, root: TreeNode):
+        if root is None:
+            return []
+        result, current = [], [root]
+        while current:
+            next_level, vals = [], []
+            for node in current:
+                vals.append(node)
+                if node.left:
+                    next_level.append(node.left)
+                if node.right:
+                    next_level.append(node.right)
+
+            current = next_level
+            result.insert(0, vals)
+
+        return result
+
     def levelOrderBottom(self, root: TreeNode):
         if not root:
             return []
@@ -89,7 +125,7 @@ if __name__ == '__main__':
     # node3.left = node6
     # node3.right = node7
 
-    # Solution().levelOrderBottom(node1)
+    Solution().levelOrderBottom3(node1)
 
     a = [2]
     a.insert(0, 5)
