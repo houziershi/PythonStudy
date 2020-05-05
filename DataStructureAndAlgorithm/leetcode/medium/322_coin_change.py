@@ -14,6 +14,8 @@ class Solution:
 if __name__ == '__main__':
     print("......", Solution().coinChange([2], 3))
 
+    test = [[1 if i == 0 or j == 0 else 0 for i in range(3)] for j in range(7)]
+    print()
     """
         Time Complexity = O(N^2)
         Space Complexity = O(N)
