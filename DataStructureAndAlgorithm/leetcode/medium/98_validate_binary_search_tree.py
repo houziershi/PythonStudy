@@ -51,15 +51,13 @@ class Solution:
         return self.correct
 
     def inorder(self, node):
-        if not node or not self.correct:  # return if already found out of order
-            return
-
-        self.inorder(node.left)
-        if node.val <= self.prev:
-            self.correct = False
-            return  # halt exploration
-        self.prev = node.val
-        self.inorder(node.right)
+        if node:
+            self.inorder(node.left)
+            if node.val <= self.prev:
+                self.correct = False
+                return
+            self.prev = node.val
+            self.inorder(node.right)
 
 
 if __name__ == '__main__':
