@@ -1,6 +1,7 @@
 # Python3 program to illustrate deletion in a Binary Tree
 
 # class to create a node with data, left child and right child.
+# https://www.geeksforgeeks.org/deletion-binary-tree/
 class Node:
     def __init__(self, data):
         self.data = data

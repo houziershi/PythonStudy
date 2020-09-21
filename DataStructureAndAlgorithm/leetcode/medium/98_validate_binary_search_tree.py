@@ -25,6 +25,23 @@ class Solution:
         else:
             return True
 
+    def isValidBST2(self, root: TreeNode) -> bool:
+        if root:
+            q = [(root, -sys.maxsize - 1, sys.maxsize)]
+            while (len(q)):
+                temp, lowerLimit, upperLimit = q.pop()
+                if upperLimit > temp.val > lowerLimit:
+                    if temp.left:
+                        q.append((temp.left, lowerLimit, temp.val))
+                    if temp.right:
+                        q.append((temp.right, temp.val, upperLimit))
+
+                else:
+                    return False
+            return True
+        else:
+            return True
+
 
 if __name__ == '__main__':
     node1 = TreeNode(3)
@@ -49,4 +66,4 @@ if __name__ == '__main__':
     node3.left = node7
     node3.right = node8
 
-    print(Solution().isValidBST(node1))
+    print(Solution().isValidBST2(node1))
