@@ -10,6 +10,10 @@ class TreeNode:
 
 
 class Solution:
+    def __init__(self):
+        self.prev = float('-inf')
+        self.correct = True
+
     def isValidBST(self, root: TreeNode) -> bool:
         if root:
             return self.helper(root.left, -sys.maxsize - 1, root.val) and self.helper(root.right, root.val, sys.maxsize)
@@ -42,6 +46,21 @@ class Solution:
         else:
             return True
 
+    def isValidBST3(self, root):
+        self.inorder(root)
+        return self.correct
+
+    def inorder(self, node):
+        if not node or not self.correct:  # return if already found out of order
+            return
+
+        self.inorder(node.left)
+        if node.val <= self.prev:
+            self.correct = False
+            return  # halt exploration
+        self.prev = node.val
+        self.inorder(node.right)
+
 
 if __name__ == '__main__':
     node1 = TreeNode(3)
@@ -66,4 +85,4 @@ if __name__ == '__main__':
     node3.left = node7
     node3.right = node8
 
-    print(Solution().isValidBST2(node1))
+    print(Solution().isValidBST3(node1))
