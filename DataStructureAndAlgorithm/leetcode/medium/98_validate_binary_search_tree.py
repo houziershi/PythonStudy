@@ -46,7 +46,7 @@ class Solution:
         else:
             return True
 
-    def isValidBST3(self, root):
+    def isValidBST3(self, root) -> bool:
         self.inorder(root)
         return self.correct
 
@@ -58,6 +58,29 @@ class Solution:
                 return
             self.prev = node.val
             self.inorder(node.right)
+
+    def isValidBST4(self, root) -> bool:
+        self.inorder2(root)
+        return self.correct
+
+    def inorder2(self, root):
+        current = root
+        stack = []
+        while True:
+            if current:
+                stack.append(current)
+                current = current.left
+
+            elif stack:
+                current = stack.pop()
+                if current.val <= self.prev:
+                    self.correct = False
+                    return
+                self.prev = current.val
+                current = current.right
+
+            else:
+                break
 
 
 if __name__ == '__main__':
@@ -83,4 +106,4 @@ if __name__ == '__main__':
     node3.left = node7
     node3.right = node8
 
-    print(Solution().isValidBST3(node1))
+    print(Solution().isValidBST4(node1))
