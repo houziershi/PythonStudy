@@ -54,17 +54,21 @@ def printPostorder(root):
 # A function to do postorder tree traversal without recursion
 def printPostorder2(root: Node):
     stack = []
+    result = []
     current = root
     while True:
         if current:
-            print("Postorder2 ", current.val)
+            result.append(current)
             stack.append(current)
-            current = current.left
+            current = current.right
         elif stack:
             temp = stack.pop()
-            current = temp.right
+            current = temp.left
         else:
             break
+
+    while result:
+        print("printPostorder2 ", result.pop().val)
 
 
 # A function to do preorder tree traversal
@@ -103,11 +107,11 @@ if __name__ == '__main__':
     root.right = Node(3)
     root.left.left = Node(4)
     root.left.right = Node(5)
-    print("Preorder traversal of binary tree is")
-    printPreorder2(root)
+    # print("Preorder traversal of binary tree is")
+    # printPreorder2(root)
     #
     # print("Inorder traversal of binary tree is")
     # printInorder2(root)
     #
-    # print("Postorder traversal of binary tree is")
-    # printPostorder(root)
+    print("Postorder traversal of binary tree is")
+    printPostorder2(root)
