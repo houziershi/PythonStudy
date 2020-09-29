@@ -16,7 +16,7 @@ def printInorder(root):
         printInorder(root.left)
 
         # then print the data of node
-        print(root.val),
+        print(root.val)
 
         # now recur on right child
         printInorder(root.right)
@@ -48,14 +48,34 @@ def printPostorder(root):
         printPostorder(root.right)
 
         # now print the data of node
-        print(root.val),
+        print(root.val)
+
+
+# A function to do postorder tree traversal without recursion
+def printPostorder2(root: Node):
+    stack = []
+    result = []
+    current = root
+    while True:
+        if current:
+            result.append(current)
+            stack.append(current)
+            current = current.right
+        elif stack:
+            temp = stack.pop()
+            current = temp.left
+        else:
+            break
+
+    while result:
+        print("printPostorder2 ", result.pop().val)
 
 
 # A function to do preorder tree traversal
 def printPreorder(root):
     if root:
         # First print the data of node
-        print(root.val),
+        print(root.val)
 
         # Then recur on left child
         printPreorder(root.left)
@@ -66,15 +86,15 @@ def printPreorder(root):
 
 # A function to do Preorder tree traversal without recursion
 def printPreorder2(root: Node):
-    stack = [root]
-    current = root.left
+    stack = []
+    current = root
     while True:
         if current:
+            print("Preorder2 ", current.val)
             stack.append(current)
             current = current.left
         elif stack:
             temp = stack.pop()
-            print("Preorder2 ", temp.val)
             current = temp.right
         else:
             break
@@ -88,10 +108,10 @@ if __name__ == '__main__':
     root.left.left = Node(4)
     root.left.right = Node(5)
     # print("Preorder traversal of binary tree is")
-    # printPreorder(root)
+    # printPreorder2(root)
     #
-    print("Inorder traversal of binary tree is")
-    printInorder2(root)
+    # print("Inorder traversal of binary tree is")
+    # printInorder2(root)
     #
-    # print("Postorder traversal of binary tree is")
-    # printPostorder(root)
+    print("Postorder traversal of binary tree is")
+    printPostorder2(root)
