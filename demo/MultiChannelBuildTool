@@ -1,0 +1,65 @@
+#!/usr/bin/python
+# coding=utf-8
+import os
+import zipfile
+
+src_empty_file = 'info/ya.txt'
+f = open(src_empty_file, 'w')
+f.close()
+src_apks = []
+for file in os.listdir('.'):
+    if os.path.isfile(file):
+        extension = os.path.splitext(file)[1][1:]
+        if extension in 'apk':
+            src_apks.append(file)
+
+channel_file = 'info/channel.txt'
+channel_file_huawei = 'info/channel_huawei.txt'
+channel_file_oppo = 'info/channel_oppo.txt'
+channel_file_vivo = 'info/channel_vivo.txt'
+
+for src_apk in src_apks:
+    src_apk_file_name = os.path.basename(src_apk)
+    temp_list = os.path.splitext(src_apk_file_name)
+    # Apk名称
+    src_apk_name = temp_list[0]
+    # Apk后缀
+    src_apk_extension = temp_list[1]
+    # 输出路劲
+    output_dir = 'output_' + src_apk_name + '/'
+    # 输出路劲不存在，则创建
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    # 获取对应的渠道文件
+    if "huawei" in src_apk_name:
+        f = open(channel_file_huawei)
+    elif "vivo" in src_apk_name:
+        f = open(channel_file_vivo)
+    elif "oppo" in src_apk_name:
+        f = open(channel_file_oppo)
+    else:
+        f = open(channel_file)
+
+    lines = f.readlines()
+    f.close()
+
+    # lines为渠道列表
+    for line in lines:
+        # 渠道名称
+        target_channel = line.strip()
+        # output_yystory_v1.2.0/yystory_v1.2.0_huawei.apk
+        target_apk = output_dir + src_apk_name + "_" + target_channel + src_apk_extension
+        # shutil.copy(src_apk, target_apk)
+        zin = zipfile.ZipFile(src_apk, 'r')
+        zout = zipfile.ZipFile(target_apk, 'w')
+        for item in zin.infolist():
+            buffer = zin.read(item.filename)
+            if item.filename != 'META-INF/CERT.RSA' and item.filename != 'META-INF/CERT.SF' and item.filename != 'META-INF/MANIFEST.MF':
+                zout.writestr(item, buffer)
+        zin.close()
+        zout.close()
+        zipped = zipfile.ZipFile(target_apk, 'a', zipfile.ZIP_DEFLATED)
+        empty_channel_file = f"META-INF/ya_{target_channel}"
+        zipped.write(src_empty_file, empty_channel_file)
+        zipped.close()
