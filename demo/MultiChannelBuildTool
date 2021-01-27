@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 import os
+import shutil
 import threading
 import zipfile
 
@@ -19,8 +20,32 @@ def createNewFile():
     channel_file_huawei = 'info/channel_huawei.txt'
     channel_file_oppo = 'info/channel_oppo.txt'
     channel_file_vivo = 'info/channel_vivo.txt'
+
+    output_src_dir = 'output_src/'
+    # 输出路径不存在，则创建
+    if not os.path.exists(output_src_dir):
+        os.mkdir(output_src_dir)
+
     for src_apk in src_apks:
-        task(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo, src_apk, src_empty_file)
+        t = threading.Thread(
+            target=coreMethod(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo, output_src_dir,
+                              src_apk,
+                              src_empty_file))
+        t.start()
+
+
+def coreMethod(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo, output_src_dir, src_apk,
+               src_empty_file):
+    zin = zipfile.ZipFile(src_apk, 'r')
+    real_src_apk = f"{output_src_dir}{src_apk}"
+    zout = zipfile.ZipFile(real_src_apk, 'w')
+    for item in zin.infolist():
+        buffer = zin.read(item.filename)
+        if item.filename != 'META-INF/CERT.RSA' and item.filename != 'META-INF/CERT.SF' and item.filename != 'META-INF/MANIFEST.MF':
+            zout.writestr(item, buffer)
+    zin.close()
+    zout.close()
+    task(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo, real_src_apk, src_empty_file)
 
 
 def task(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo, src_apk, src_empty_file):
@@ -48,9 +73,7 @@ def task(channel_file, channel_file_huawei, channel_file_oppo, channel_file_vivo
     f.close()
     # lines为渠道列表
     for line in lines:
-        t = threading.Thread(
-            target=reCreateFile(line, output_dir, src_apk, src_apk_extension, src_apk_name, src_empty_file))
-        t.start()
+        reCreateFile(line, output_dir, src_apk, src_apk_extension, src_apk_name, src_empty_file)
 
 
 def reCreateFile(line, output_dir, src_apk, src_apk_extension, src_apk_name, src_empty_file):
@@ -58,20 +81,14 @@ def reCreateFile(line, output_dir, src_apk, src_apk_extension, src_apk_name, src
     target_channel = line.strip()
     # output_yystory_v1.2.0/yystory_v1.2.0_huawei.apk
     target_apk = output_dir + src_apk_name + "_" + target_channel + src_apk_extension
-    # shutil.copy(src_apk, target_apk)
-    zin = zipfile.ZipFile(src_apk, 'r')
-    zout = zipfile.ZipFile(target_apk, 'w')
-    for item in zin.infolist():
-        buffer = zin.read(item.filename)
-        if item.filename != 'META-INF/CERT.RSA' and item.filename != 'META-INF/CERT.SF' and item.filename != 'META-INF/MANIFEST.MF':
-            zout.writestr(item, buffer)
-    zin.close()
+    shutil.copy(src_apk, target_apk)
+    zipped = zipfile.ZipFile(target_apk, 'a', zipfile.ZIP_DEFLATED)
     empty_channel_file = f"META-INF/ya_{target_channel}"
-    zout.write('channel', empty_channel_file)
-    zout.close()
+    zipped.write(src_empty_file, empty_channel_file)
+    zipped.close()
 
 
 if __name__ == '__main__':
-    print('............start........')
+    print('............打包 start........')
     createNewFile()
-    print('............end........')
+    print('............恭喜你，打包完成!!!! end........')
