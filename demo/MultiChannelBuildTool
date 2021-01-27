@@ -7,7 +7,7 @@ import zipfile
 
 
 def createNewFile():
-    src_empty_file = 'info/ya.txt'
+    src_empty_file = 'info/ch.txt'
     f = open(src_empty_file, 'w')
     f.close()
     src_apks = []
@@ -83,7 +83,7 @@ def reCreateFile(line, output_dir, src_apk, src_apk_extension, src_apk_name, src
     target_apk = output_dir + src_apk_name + "_" + target_channel + src_apk_extension
     shutil.copy(src_apk, target_apk)
     zipped = zipfile.ZipFile(target_apk, 'a', zipfile.ZIP_DEFLATED)
-    empty_channel_file = f"META-INF/ya_{target_channel}"
+    empty_channel_file = f"META-INF/ch_{target_channel}"
     zipped.write(src_empty_file, empty_channel_file)
     zipped.close()
 
